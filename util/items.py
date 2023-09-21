@@ -1,8 +1,9 @@
-import google.cloud import storage
 
 
+BUCKET_NAME = 'item-exchange'
+IMAGE_PREFIX = 'item-images'
 #method to get image from google cloud storage with bucket name and file name
-def get_image_from_gcs(bucket_name, file_name):
+def get_image_from_gcs(file_name, bucket_name=BUCKET_NAME):
     # Get the bucket object.
     bucket = storage.Bucket(bucket_name)
 

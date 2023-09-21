@@ -3,3 +3,5 @@ bcrypt
 sqlalchemy
 psycopg2
 flask_sqlalchemy
+passlib
+flask_login

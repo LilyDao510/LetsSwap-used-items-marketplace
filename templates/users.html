@@ -1,4 +1,4 @@
-
+{% extends "base.html" %}
 {% block content %}
 <div class="container">
     <h1>Users</h1>
@@ -6,6 +6,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
             </tr>
@@ -13,6 +14,7 @@
         <tbody>
             {% for user in users %}
                 <tr>
+                    <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                 </tr>

@@ -1,16 +1,25 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from passlib.hash import pbkdf2_sha256
 
 
 db = SQLAlchemy()
 
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     __tablename__ = 'users'
+    
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
+    salt = db.Column(db.String(64), nullable=False)
+
+    def get_id(self):
+        return self.id
+    def check_password(self, password):
+        return pbkdf2_sha256.verify(password+self.salt, self.password)
 
 class Items(db.Model):
     __tablename__ = 'items'

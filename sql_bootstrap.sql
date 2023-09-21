@@ -16,7 +16,8 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    salt VARCHAR(64) NOT NULL
 );
 
 -- Create items table
@@ -57,19 +58,20 @@ CREATE TABLE item_locations (
 );
 
 -- Populate users table
-INSERT INTO users (name, email, password) VALUES
-    ('John Doe', 'johndoe@example.com', 'password'),
-    ('Jane Doe', 'janedoe@example.com', 'password'),
-    ('Peter Smith', 'petersmith@example.com', 'password'),
-    ('Mary Johnson', 'maryjohnson@example.com', 'password')
+INSERT INTO users (name, email, password, salt) VALUES
+    ('John Doe', 'johndoe@example.com', 'password' , 'salt'),
+    ('Jane Doe', 'janedoe@example.com', 'password', 'salt'),
+    ('Peter Smith', 'petersmith@example.com', 'password', 'salt'),
+    ('Mary Johnson', 'maryjohnson@example.com', 'password', 'salt')
 ;
 
 -- Populate items table
 INSERT INTO items (name, description, image_url, owner_id) VALUES
-    ('Book', 'This is a book.', 'https://example.com/book.jpg', 1),
-    ('Phone', 'This is a phone.', 'https://example.com/phone.jpg', 2),
-    ('Computer', 'This is a computer.', 'https://example.com/computer.jpg', 3),
-    ('Car', 'This is a car.', 'https://example.com/car.jpg', 4)
+    ('Book', 'This is a book.', 'https://storage.googleapis.com/item-exchange/item-images/book.jpeg', 1),
+    ('Phone', 'This is a phone.', 'https://storage.googleapis.com/item-exchange/item-images/phone.jpg', 2),
+    ('Computer', 'This is a computer.', 'https://storage.googleapis.com/item-exchange/item-images/computer.jpeg', 3),
+    ('Car', 'This is a car.', 'https://storage.googleapis.com/item-exchange/item-images/car.webp', 4),
+    ('Sneaker', 'Not Adidas', 'https://storage.googleapis.com/item-exchange/item-images/shoes.jpeg', 1)
 ;
 
 DROP USER IF EXISTS lien_dao;

@@ -1,0 +1,64 @@
+/* Global styles */
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    color: #000000;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #FF0000;
+  }
+  
+  /* Header styles */
+  
+  header {
+    background-color: #ffffff;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Main content styles */
+  
+  main {
+    padding: 20px;
+  }
+  
+  .item {
+    margin-bottom: 20px;
+  }
+  
+  .item-image {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .item-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .item-description {
+    font-size: 16px;
+  }
+  
+  /* Footer styles */
+  
+  footer {
+    background-color: #ffffff;
+    padding: 20px;
+  }
