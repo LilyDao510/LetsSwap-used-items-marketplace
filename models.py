@@ -35,7 +35,7 @@ class ExchangeRequests(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
-    requester_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    requester_item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
     status = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.TIMESTAMP, nullable=False, default=db.func.current_timestamp())
     address = db.Column(db.String(255))

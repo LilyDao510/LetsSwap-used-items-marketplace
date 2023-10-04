@@ -1,15 +1,52 @@
-{% extends "base.html" %}
-{% block content %}
-  <div class="container">
-    <h1>Login</h1>
-    <br>
-    <form action="" method="post">
-      <input type="email" placeholder="email" name="email">
-      <input type="password" placeholder="password" name="password">
-      <input class="btn btn-default" type="submit" value="Login">
-    </form>
-    {% if error %}
-      <p class="error"><strong>Error:</strong> {{ error }}</p>
-    {% endif %}
-  </div>
+{% extends "base.html" %} {% block content %}
+<div class="container-sm container-login">
+  <h1>Login</h1>
+  <br />
+  <form action="" method="post">
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input
+        type="email"
+        name="email"
+        id="form2Example1"
+        class="form-control"
+      />
+      <label class="form-label" for="form2Example1">Email address</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input
+        type="password"
+        name="password"
+        id="form2Example2"
+        class="form-control"
+      />
+      <label class="form-label" for="form2Example2">Password</label>
+    </div>
+
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row mb-4">
+      <div class="col"></div>
+
+      <div class="col d-flex justify-content-end">
+        <!-- Simple link -->
+        <a href="#!">Forgot password?</a>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" value="Login" class="btn btn-primary btn-block mb-4">
+      Login
+    </button>
+
+    <!-- Register buttons -->
+    <div class="text-center">
+      <p>Not a member? <a href="/register">Register</a></p>
+    </div>
+  </form>
+  {% if error %}
+  <p class="error"><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+</div>
 {% endblock %}

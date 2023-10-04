@@ -9,6 +9,7 @@
             <table>
                 <thead>
                     <tr>
+                    <th>Id</th>
                     <th>Name</th>
                     <th>Owner</th>
                     <th>Description</th>
@@ -18,8 +19,9 @@
                 <tbody>
                     {% for item in items %}
                     <tr>
+                        <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
                         <td>{{ item.name }}</td>
-                        <td>{{ item.user_name }}</td>
+                        <td><a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a></td>
                         <td>{{ item.description }}</td>
                         <td>
                         {% if item.image_url %}

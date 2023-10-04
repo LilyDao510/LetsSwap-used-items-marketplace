@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import os
 import util.users as users
+import util.items as items
 from models import Users, Items, ExchangeRequests, Comments, db
 from sqlalchemy.orm import aliased
 from flask import Blueprint
@@ -102,40 +103,47 @@ def list_users():
 
 @app.route("/items")
 def list_items():
-    items = Items.query.join(Users).add_columns(Items.name,Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).all()
+    items = Items.query.join(Users).add_columns(Items.id,Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).all()
     return render_template("index.html", items=items)
 
 #endpoint to list one item by id
 @app.route("/items/<int:item_id>")
 def list_item(item_id):
-    item = Items.query.join(Users).add_columns(Items.name,Items.description, Items.image_url, Users.name.label("user_name")).filter_by(id=item_id).first()
+    item = Items.query.join(Users).add_columns(Items.id,Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name")).filter_by(id=item_id).first()
     return render_template("item.html", item=item)
 
 #endpoint to list all item by user_id
 @app.route("/users/<int:user_id>/items")
 def list_items_by_user(user_id):
-    items = Users.query.join(Items).add_columns(Items.name,Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).filter_by(id=user_id).all()
+    items = Users.query.join(Items).add_columns(Items.id,Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).filter_by(owner_id=user_id).all()
     return render_template("index.html", items=items)
   
 #endpoint to list all item by current user
 @app.route("/users/<int:user_id>/items")
 @app.route("/users/items")
 def list_items_by_current_user():
-    items = Users.query.join(Items).add_columns(Items.name,Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).filter_by(id=current_user.id).all()
+    items = Users.query.join(Items).add_columns(Items.id, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).filter_by(owner_id=user_id).all()
     return render_template("index.html", items=items)
 
 
 #endpoin to add a new item
 @app.route("/items/create", methods=["GET", "POST"])
 def add_item():
+    if not current_user.is_authenticated:
+        flash('You have to login first to list item for exchange')
+        return redirect(url_for('login'))
     if request.method == "POST":
         name = request.form["name"]
         description = request.form["description"]
-        image_url = "dummy-image-url"
-        user_id = request.form["user_id"]
-        item = Items(name=name, description=description, image_url=image_url, user_id=user_id)
-        Items.add_item(item)
-        return render_template("index.html")
+        #TODO upload to google cloud storage
+        if request.files['image']:
+            image_file = request.form["image"]
+        image_url = items.generate_unique_file_name()
+        user_id = current_user.get_id()
+        item = Items(name=name, description=description, image_url=image_url, owner_id=user_id)
+        db.session.add(item)
+        db.session.commit()
+        return redirect(url_for('index'))
     if request.method == 'GET':
         return render_template('create_item.html')
 
@@ -154,24 +162,28 @@ def update_item(item_id):
         return render_template("index.html")
 
 
-@app.route('/item/<int:item_id>/upload-image', methods=['POST'])
-def upload_image():
-    """Upload an image file to Google Cloud Storage."""
-
-    # Get the image file from the request.
-    image = request.files['image']
-
-    # Get the file name and encode it.
-    filename = image.filename
-    encoded_filename = filename.encode('utf-8')
-
-    # Upload the image to Google Cloud Storage.
-    bucket = storage.Bucket('my-bucket')
-    blob = bucket.blob(encoded_filename)
-    blob.upload_from_file(image)
-
-    # Return the success message.
-    return jsonify({'success': True})
+#endpoint to create an exchange with a listed item
+@app.route("/items/<int:item_id>/exchange")
+@app.route("/exchange_requests/create")
+def exchange_item(item_id=None):
+    if not current_user.is_authenticated:
+        flash('You have to login first to create exchange request')
+        return redirect(url_for('login'))
+    if request.method == "POST":
+        item_id = request.form["item_id"]
+        address = request.form["address"]
+        requester_item_id = request.form["requester_item_id"]
+        shipping_type = request.form["shipping_type"]
+        exchange_request = ExchangeRequests(item_id=item_id, requester_item_id=requester_item_id, shipping_type = shipping_type, address = address)
+        db.session.add(exchange_request)
+        db.session.commit()
+        return render_template("list_exchanges.html")
+    if request.method == 'GET':
+        requester_user_id = current_user.get_id()
+        requester_items =  Users.query.join(Items).add_columns(Items.id, Items.name,Items.owner_id).filter_by(owner_id=requester_user_id).all()
+        print(requester_items)
+        return render_template('create_exchange_request.html')
+   
 
 if __name__ == "__main__":
     app.run(host='0000000', port=5000, debug=True)

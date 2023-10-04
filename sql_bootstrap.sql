@@ -33,7 +33,7 @@ CREATE TABLE items (
 CREATE TABLE exchange_requests (
     id SERIAL PRIMARY KEY,
     item_id SERIAL REFERENCES items(id),
-    requester_user_id SERIAL REFERENCES users(id),
+    requester_item_id SERIAL REFERENCES items(id),
     status VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     address VARCHAR(255),
@@ -71,8 +71,17 @@ INSERT INTO items (name, description, image_url, owner_id) VALUES
     ('Phone', 'This is a phone.', 'https://storage.googleapis.com/item-exchange/item-images/phone.jpg', 2),
     ('Computer', 'This is a computer.', 'https://storage.googleapis.com/item-exchange/item-images/computer.jpeg', 3),
     ('Car', 'This is a car.', 'https://storage.googleapis.com/item-exchange/item-images/car.webp', 4),
-    ('Sneaker', 'Not Adidas', 'https://storage.googleapis.com/item-exchange/item-images/shoes.jpeg', 1)
+    ('Sneaker', 'Not Adidas', 'https://storage.googleapis.com/item-exchange/item-images/shoes.jpeg', 1),
+    ('T-shirt', 'V neck', 'https://storage.googleapis.com/item-exchange/item-images/shirt.jpeg', 1),
+    ('Jeans', 'Levi', 'https://storage.googleapis.com/item-exchange/item-images/pants.jpeg', 1);
 ;
+-- Populate item exchange table
+
+INSERT INTO exchange_requests (item_id, requester_item_id, status, address, shipping_type)
+VALUES
+    (1, 2, 'pending', '123 Main Street, Anytown, CA 91234', 'UPS'),
+    (2, 3, 'approved', '456 Elm Street, Nowhere, TX 78901', 'FedEx'),
+    (3, 1, 'shipped', '789 Oak Street, Anywhere, FL 32102', 'USPS');
 
 DROP USER IF EXISTS lien_dao;
 CREATE USER lien_dao WITH PASSWORD 'dummy';

@@ -1,23 +1,23 @@
 /* Global styles */
 
 body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  a {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* a {
     color: #000000;
     text-decoration: none;
-  }
-  
-  a:hover {
+  } */
+
+/* a:hover {
     color: #FF0000;
-  }
-  
-  /* Header styles */
-  
-  header {
+  } */
+
+/* Header styles */
+
+/* header {
     background-color: #ffffff;
     padding: 20px;
   }
@@ -30,13 +30,11 @@ body {
   h2 {
     font-size: 24px;
     font-weight: bold;
-  }
-  
-  /* Main content styles */
-  
-  main {
-    padding: 20px;
-  }
+  } */
+
+/* Main content styles */
+
+/* 
   
   .item {
     margin-bottom: 20px;
@@ -54,11 +52,36 @@ body {
   
   .item-description {
     font-size: 16px;
-  }
-  
-  /* Footer styles */
-  
-  footer {
+  } */
+
+/* Footer styles */
+
+/* footer {
     background-color: #ffffff;
     padding: 20px;
-  }
+  } */
+main {
+  padding: 12px 0 0;
+}
+
+.profile {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+li.nav-item.dropdown::marker {
+  display: none;
+}
+
+.dropdown.show {
+  left: -50px;
+}
+
+.container-login {
+  max-width: 540px;
+}
+
+.header-profile{
+  background-color: #4CAF50;  
+}

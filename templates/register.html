@@ -1,14 +1,36 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="row header-profile">
+    <div class="col-4 d-flex justify-content-center p-4 border border-4 border-dark border-end-0">
+      <i class="profile bi bi-person-circle" style="font-size: 10rem"></i>
+    </div>
+    <div class="col-8 d-flex flex-column justify-content-between p-4 border border-4 border-dark">
+      <div class="fw-bolder fs-3">{{user.name}}</div>
+      <div>{{user.email}}</div>
+      <div>address</div>
+      <div>
+        <button type="button" class="btn">Button</button>
+      </div>
+    </div>
+  </div>
 
-{% block content %}
-
-  <h1>Register</h1>
-
-  <form action="/register" method="POST">
-    <input type="text" name="username" placeholder="Username">
-    <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <button type="submit">Register</button>
-  </form>
-</body>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

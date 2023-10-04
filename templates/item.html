@@ -8,6 +8,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                    <th>Id</th>
                     <th>Name</th>
                     <th>Owner</th>
                     <th>Description</th>
@@ -16,16 +17,18 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
                         <td>{{ item.name }}</td>
-                        <td>{{ item.user_name }}</td>
+                        <td><a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a></td>
                         <td>{{ item.description }}</td>
                         <td>
                         {% if item.image_url %}
                             <img src="{{ item.image_url}}" alt="Item Image" style="width: 400px; height: 300px;">
                         {% endif %}
+                        <p><a href="/items/{{item.id}}/exchange">Exchange This Item</a></p>
                     </td>
                 </tbody>
-            </table>
+            </table>  
         </div>
     </ul>
 {% endblock %}
