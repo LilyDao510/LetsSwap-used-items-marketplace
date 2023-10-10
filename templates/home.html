@@ -1,0 +1,90 @@
+{% extends "base.html" %} {% block content %}
+<section id="hi" class="vh-100">
+  <div class="container">
+    <div>Looking for things to swap today?</div>
+    <a href="/explore"
+      ><button type="button" class="btn text-white bg-black">
+        Explore Now
+      </button></a
+    >
+  </div>
+</section>
+<section id="intro" class="vh-100">
+  <div class="container">
+    <div class="row">
+      <div class="col-9">
+        <div class="text-success fs-2 fw-bold">What is Item Exchange?</div>
+        {# TODO #}
+        <div>Item exchange is the ....</div>
+      </div>
+      <div class="col-3">
+        <img
+          src="https://mdbcdn.b-cdn.net/img/new/standard/city/047.webp"
+          class="img-fluid rounded-circle"
+          alt="Townhouses and Skyscrapers"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+<section id="think" class="vh-100">
+  <div class="container">
+    <div class="text-success d-flex justify-content-center fs-3 fw-bold">
+      Things we love
+    </div>
+    <div class="row">
+      {% for item in items %}
+      <div class="col-md-3">
+        <a href="/items/{{item.id}}">
+          <div class="card">
+            <img
+              src="{{ item.image_url}}"
+              class="card-img-top"
+              alt="Item Image"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+      <div class="col-md-3">
+        <div class="card">
+          <img
+            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
+            class="card-img-top"
+            alt="Fissure in Sandstone"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Name</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="bg-image">
+            <img
+              src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.webp"
+              class="img-fluid"
+              alt="Sample"
+            />
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+              <div
+                class="d-flex justify-content-center align-items-center h-100"
+              >
+                <p class="text-white fs-2 mb-0">SWAPPED</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Name</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

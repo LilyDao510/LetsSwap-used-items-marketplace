@@ -1,28 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h1>Item Up for Exchange</h1>
+    <ul>
+        <div class="container">
+            <h1>Item</h1>
+        
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Condition</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.condition }}</td>
+                        <td>{{ item.status}}</td>
+                        <td><a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a></td>
+                        <td>{{ item.description }}</td>
+                        <td>
+                        {% if item.image_url %}
+                            <img src="{{ item.image_url}}" alt="Item Image" style="width: 400px; height: 300px;">
+                        {% endif %}
+                    </td>
+                </tbody>
+            </table>  
+        </div>
+    </ul>
     <h1>Create Item Exchange Request</h1>
 
-    <form action="/exchange_requests/create" method="post">
+    <form action="/items/{{item.id}}/exchange" method="post">
 
-        {% if item_id %}
-            <input type="hidden" name="item_id" value="{{ item_id }}">
-        {% else %}
-            <label for="item_id">Item Id</label>
-            <input type="text" name="item_id" id="item_id" required>
-        {% endif %}
-
-
-        <label for="address">Address:</label>
-        <input type="text" name="address" id="address" required>
-
-
-        <label for="requester_item">My Item</label>
-        <select name="requester_item" id="requester_item_id">
+        <label for="requester_item">Exchange Item</label>
+        <select name="requester_item_id" id="requester_item_id">
             {% for requester_item in requester_items %}
                 <option value="{{ requester_item.id }}">{{ requester_item.name }}</option>
             {% endfor %}
         </select>
+
+        <label for="address">Address:</label>
+        <input type="text" name="address" id="address" required>
 
 
         <label for="shipping_type">Shipping Type:</label>

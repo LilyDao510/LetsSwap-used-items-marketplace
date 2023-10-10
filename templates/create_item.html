@@ -5,7 +5,18 @@
 
 <form action="/items/create" method="POST" enctype="multipart/form-data">
   <input type="text" name="name" placeholder="Item name">
-  <input type="text" name="description" placeholder="Item description">
+  <input type="text" name="description" placeholder="Description">
+  <select name="condition" placeholder="Condition">
+    <option value="NEW">New</option>
+    <option value="OLD">Old</option>
+  </select>  
+  <select name="type" placeholder="Type">
+    <option value="CLOTHING">Clothing</option>
+    <option value="FURNITURE">Furniture</option>
+    <option value="ELECTRONICS">Electronics</option>
+    <option value="VEHICLE">Vehicle</option>
+    <option value="OTHER">Other</option>
+  </select> 
   <input type="file" name="image" placeholder="Upload image">
   <button type="submit">Create Item</button>
 </form>

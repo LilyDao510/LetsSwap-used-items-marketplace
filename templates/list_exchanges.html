@@ -1,60 +1,115 @@
 {% extends "base.html" %}
+<script src="/static/js/main.js"></script>
 
 {% block content %}
     <h1>Your current exchange requests</h1>
     <ul>
         <div class="container">
-            <h1>Item You want</h1>
+            <h2>Requests for your items</h2>
         
             <table class="table">
                 <thead>
                     <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Owner</th>
-                    <th>Description</th>
-                    <th>Image</th>
+                      <th>Item ID</th>
+                      <th>Requester Item ID</th>
+                      <th>Created At</th>
+                      <th>Address</th>
+                      <th>Shipping Type</th>
+                      <th>Status</th>
+                      <th>Action</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
-                        <td>{{ item.name }}</td>
-                        <td><a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a></td>
-                        <td>{{ item.description }}</td>
+                  </thead>
+                  <tbody>
+                    {% for exchange_request in received_exchanges %}
+                      <tr>
+                        <td><a href="/items/{{ exchange_request.item_id }}">{{ exchange_request.item_id }}</a></td>
+                        <td><a href="/items/{{ exchange_request.requester_item_id }}">{{ exchange_request.requester_item_id }}</a></td>
+                        <td>{{ exchange_request.created_at }}</td>
+                        <td>{{ exchange_request.address }}</td>
+                        <td>{{ exchange_request.shipping_type }}</td>
+                        <td>{{ exchange_request.status }}</td>
                         <td>
-                        {% if item.image_url %}
-                            <img src="{{ item.image_url}}" alt="Item Image" style="width: 400px; height: 300px;">
-                        {% endif %}
-                    </td>
-                </tbody>
-            </table> 
-            <!-- Add some exchange logo here -->
-            <h1>Your Item</h1>
+                            <div id="exchange-request-buttons">
+                            <button type="button" id="accept-exchange-request">Accept</button>
+                            <button type="button" id="reject-exchange-request">Reject</button>
+                            </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>    
+        </div>
+        <div class="container">
+            <h2>Requests for other items</h2>
         
             <table class="table">
                 <thead>
                     <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Owner</th>
-                    <th>Description</th>
-                    <th>Image</th>
+                      <th>Item ID</th>
+                      <th>Requester Item ID</th>
+                      <th>Created At</th>
+                      <th>Address</th>
+                      <th>Shipping Type</th>
+                      <th>Status</th>
+                      <th>Action</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><a href="/items/{{your_item.id}}">{{your_item.id}}</a></td>
-                        <td>{{ your_item.name }}</td>
-                        <td><a href="/users/{{your_item.owner_id}}/items">{{your_item.user_name}}</a></td>
-                        <td>{{ your_item.description }}</td>
+                  </thead>
+                  <tbody>
+                    {% for exchange_request in sent_exchanges %}
+                      <tr>
+                        <td><a href="/items/{{ exchange_request.item_id }}">{{ exchange_request.item_id }}</a></td>
+                        <td><a href="/items/{{ exchange_request.requester_item_id }}">{{ exchange_request.requester_item_id }}</a></td>
+                        <td>{{ exchange_request.created_at }}</td>
+                        <td>{{ exchange_request.address }}</td>
+                        <td>{{ exchange_request.shipping_type }}</td>
+                        <td>{{ exchange_request.status }}</td>
                         <td>
-                        {% if your_item.image_url %}
-                            <img src="{{ your_item.image_url}}" alt="Item Image" style="width: 400px; height: 300px;">
-                        {% endif %}
-                    </td>
-                </tbody>
+                            <div id="exchange-request-buttons">
+                                <button type="button" id="cancel-exchange-request">Cancel</button>
+                            </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
             </table>   
         </div>
     </ul>
 {% endblock %}
+
+<script>
+document.getElementById("accept-exchange-request").addEventListener("click", function() {
+    console.log("inside ")
+    // Make an AJAX request to the accept endpoint
+    $.ajax({
+        url: `/exchanges/${exchange_request.id}/ACCEPT`,
+        method: 'PUT',
+        success: function() {
+            // Redirect to the list exchanges page
+            window.location.href = '/exchanges';
+        }
+        });
+    console.log("Accept exchange request");
+});
+document.getElementById("reject-exchange-request").addEventListener("click", function() {
+    // Make an AJAX request to the reject endpoint
+    $.ajax({
+        url: `/exchanges/${exchange_request.id}/REJECTED`,
+        method: 'PUT',
+        success: function() {
+            // Redirect to the list exchanges page
+            window.location.href = '/exchanges';
+        }
+        });    console.log("Reject exchange request");
+});
+document.getElementById("cancel-exchange-request").addEventListener("click", function() {
+    // Make an AJAX request to the cancel endpoint
+    $.ajax({
+        url: `/exchanges/${exchange_request.id}/CANCELLED`,
+        method: 'PUT',
+        success: function() {
+            // Redirect to the list exchanges page
+            window.location.href = '/exchanges';
+        }
+        });    console.log("Cancel exchange request");
+});
+</script>

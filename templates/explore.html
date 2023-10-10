@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="p-4 border border-4 border-dark">
+    <div class="d-flex justify-content-center">
+      Looking for something to swap?
+    </div>
+    <div class="d-flex justify-content-center">
+      Try search chinh for an item or category to find your perfect match
+    </div>
+    <div class="d-flex justify-content-center fs-2 text-success">
+      Browse for things we love
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end pt-4">
+    <div class="form-outline mb-4 explore-category">
+      <select
+        aria-label="Default select"
+        id="condition"
+        name="condition"
+        class="form-select"
+      >
+        <option selected>Choose category</option>
+        <option value="clothing">Clothing</option>
+        <option value="furniture">Furniture</option>
+        <option value="electronics">Electronics</option>
+        <option value="books">Books</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+  </div>
+  <div class="pb-4">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <img
+            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
+            class="card-img-top"
+            alt="Fissure in Sandstone"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Name</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <img
+            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
+            class="card-img-top"
+            alt="Fissure in Sandstone"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Name</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="bg-image">
+            <img
+              src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.webp"
+              class="img-fluid"
+              alt="Sample"
+            />
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+              <div
+                class="d-flex justify-content-center align-items-center h-100"
+              >
+                <p class="text-white fs-2 mb-0">SWAPPED</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Name</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <img
+            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
+            class="card-img-top"
+            alt="Fissure in Sandstone"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Name</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-primary m-auto">Load More</button>
+  </div>
+</div>
+{% endblock %}

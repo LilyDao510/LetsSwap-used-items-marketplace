@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Items Up for Exchange</h1>
+    <h1>Ready To Exchange</h1>
     <ul>
         <div class="container">
-            <h1>Item</h1>
+            <h1>Items</h1>
 
             <table>
                 <thead>
                     <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Type</th>
+                    <th>Condition</th>
+                    <th>Status</th>
                     <th>Owner</th>
                     <th>Description</th>
                     <th>Image</th>
@@ -21,6 +24,9 @@
                     <tr>
                         <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
                         <td>{{ item.name }}</td>
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.condition }}</td>
+                        <td>{{ item.status}}</td>
                         <td><a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a></td>
                         <td>{{ item.description }}</td>
                         <td>

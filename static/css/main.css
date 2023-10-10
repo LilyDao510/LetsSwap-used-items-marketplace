@@ -83,5 +83,9 @@ li.nav-item.dropdown::marker {
 }
 
 .header-profile{
-  background-color: #4CAF50;  
+  background-color: #00BFA5;
+}
+
+.explore-category {
+  width: 200px;
 }
