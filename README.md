@@ -14,7 +14,7 @@
 
 ## <a name="summary"></a>Summary
 
-[![**Find my demo video here**](static/youtube-rs.jpg)](https://www.youtube.com/watch?v=SNf_pZP1Fj4 "LETS SWAP")
+[![**Find my demo video here**](static/images/youtube-rs.jpg)](https://www.youtube.com/watch?v=SNf_pZP1Fj4 "LETS SWAP")
 
 <br>
 <br>
