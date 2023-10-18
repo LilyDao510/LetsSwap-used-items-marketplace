@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block content %}
-<div class="container">
-  <div class="row">
+<div class="container mt-4">
+  <div class="row bg-white">
     <div
-      class="col-7 border border-4 border-dark d-flex justify-content-center"
+      class="col-7 border border-4 border-dark d-flex justify-content-center px-0"
     >
       {% if item.image_url %}
       <img
@@ -19,53 +19,98 @@
           <i class="profile bi bi-person-circle" style="font-size: 4rem"></i>
         </div>
         <div class="ps-3 p-2">
-          <div class="fs-4 fw-bold">{{item.user_name}}</div>
-          {# TODO #}
-          <div>address</div>
+          <div class="fs-4 fw-bold"><a href="/users/{{item.owner_id}}">{{item.user_name}}</a></div>
+          <div>{{ item.address}}</div>
         </div>
       </div>
-      <div class="d-flex flex-column px-4 pt-3">
-        <button type="button" class="btn border border-2 border-dark">
+      <div class="d-flex flex-column px-4 py-3">
+        <button
+          onclick="openSwapInfo()"
+          type="button"
+          class="btn border border-2 border-dark"
+        >
           Swap request
         </button>
-        <button type="button" class="my-3 btn text-white bg-black">
-          Cancel
-        </button>
-        <form action="/items/{{item.id}}/exchange" method="post">
-
-          <label for="requester_item">Exchange Item</label>
-          <select name="requester_item_id" id="requester_item_id">
+        <div class="swap-info d-none flex-column">
+          <button
+            onclick="closeSwapInfo()"
+            type="button"
+            class="my-3 btn text-white bg-black"
+          >
+            Cancel
+          </button>
+          <form action="/items/{{item.id}}/exchange" method="post">
+            {#
+            <label for="requester_item">Exchange Item</label>
+            <select name="requester_item_id" id="requester_item_id">
               {% for requester_item in requester_items %}
-                  <option value="{{ requester_item.id }}">{{ requester_item.name }}</option>
+              <option value="{{ requester_item.id }}">
+                {{ requester_item.name }}
+              </option>
+              {% endfor %}</select
+            >#}
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                id="address"
+                name="address"
+                class="form-control"
+                required
+              />
+              <label class="form-label" for="address" required>Address</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label for="shipping_type">Shipping Type:</label>
+
+              <select
+                aria-label="Default select"
+                id="shipping_type"
+                name="shipping_type"
+                class="form-select"
+              >
+                <option value="USPS" selected>USPS</option>
+                <option value="UPS">UPS</option>
+                <option value="FedEx">FedEx</option>
+                <option value="MeetUp">Meet Up</option>
+              </select>
+            </div>
+            <div class="row">
+              {% for requester_item in requester_items %}
+              <div class="col-md-4">
+                <div class="custom-control custom-checkbox image-checkbox">
+                  <input
+                    type="radio"
+                    class="custom-control-input d-none"
+                    name="requester_item_id"
+                    value="{{ requester_item.id}}"
+                    id="{{ requester_item.id}}"
+                    required
+                  />
+                  <label
+                    class="custom-control-label card-img-top d-flex justify-content-center"
+                    for="{{ requester_item.id}}"
+                    onclick="handleSelected(this)"
+                  >
+                    <img
+                      src="{{ requester_item.image_url}}"
+                      alt="#"
+                      class="img-fluid"
+                      style="height: 150px; object-fit: cover"
+                    />
+                  </label>
+                </div>
+              </div>
               {% endfor %}
-          </select>
-  
-          <label for="address">Address:</label>
-          <input type="text" name="address" id="address" required>
-  
-  
-          <label for="shipping_type">Shipping Type:</label>
-          <select name="shipping_type" id="shipping_type">
-              <option value="USPS">USPS</option>
-              <option value="UPS">UPS</option>
-              <option value="FedEx">FedEx</option>
-              <option value="MeetUp">Meet Up</option>
-          </select>
-  
-          <button type="submit">Submit</button>
-      </form>
-        <div class="row">
-          {% for requester_item in requester_items %}
-          <div class="col-md-4">
-            <div class="custom-control custom-checkbox image-checkbox">
-              <input type="checkbox" class="custom-control-input" id="{{ requester_item.name}}">
-              <label class="custom-control-label card-img-top" for="{{ requester_item.name}}">
-                  <img src="{{ requester_item.image_url}}" alt="#" class="img-fluid"
-                style="height: 200px; object-fit: cover">
-              </label>
-          </div>
-          </div>
-          {% endfor %}
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary text-white bg-black d-flex w-100 mt-4 justify-content-center"
+            >
+              Let swap
+            </button>
+          </form>
         </div>
         <div class="fs-3 fw-bold pt-4">{{ item.name }}</div>
         <div>{{ item.description }}</div>
@@ -80,6 +125,46 @@
       </div>
     </div>
   </div>
+  <div class="mt-4">
+    <div class="fw-bold fs-3">More things yopu might like</div>
+    <div class="row">
+      {#TODO: fill list item#} {% for item in items %}
+      <div class="card-item col-md-3 d-none {{ item.type}}">
+        <a href="/items/{{item.id}}">
+          <div class="card mb-4">
+            {% if item.status == "ACTIVE" %}
+            <img
+              src="{{ item.image_url}}"
+              class="card-img-top"
+              alt="Item Image"
+              style="height: 200px; object-fit: cover"
+            />
+            {% else %}
+            <div class="bg-image">
+              <img
+                src="{{ item.image_url}}"
+                class="img-fluid"
+                alt="Item Image"
+              />
+              <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+                <div
+                  class="d-flex justify-content-center align-items-center h-100"
+                >
+                  <p class="text-white fs-2 mb-0">SWAPPED</p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {#
   <h1>Item Up for Exchange</h1>
   <ul>
     <div class="container">
@@ -126,5 +211,14 @@
       </table>
     </div>
   </ul>
+  #}
 </div>
+<script>
+  function handleSelected(e) {
+    Array.from(document.getElementsByClassName("custom-control-label")).forEach(
+      (item) => item.classList.remove("checked")
+    );
+    e.classList.add("checked");
+  }
+</script>
 {% endblock %}

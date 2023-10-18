@@ -1,43 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Ready To Exchange</h1>
-    <ul>
-        <div class="container">
-            <h1>Items</h1>
-
-            <table>
-                <thead>
-                    <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Condition</th>
-                    <th>Status</th>
-                    <th>Owner</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                    <tr>
-                        <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.type }}</td>
-                        <td>{{ item.condition }}</td>
-                        <td>{{ item.status}}</td>
-                        <td><a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a></td>
-                        <td>{{ item.description }}</td>
-                        <td>
-                        {% if item.image_url %}
-                            <img src="{{ item.image_url}}" alt="Item Image" style="width: 400px; height: 300px;">
-                        {% endif %}
-                    </td>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="container">
+    <div class></div>
+    <div class="row">
+        {% for item in items %}
+        <div class="col-md-3">
+          <a href="/items/{{item.id}}">
+            <div class="card">
+              {% if item.status == "ACTIVE" %}
+              <img
+                src="{{ item.image_url}}"
+                class="card-img-top"
+                alt="Item Image"
+                style="height: 200px; object-fit: cover"
+              />
+              {% else %}
+              <div class="bg-image">
+                <img
+                  src="{{ item.image_url}}"
+                  class="img-fluid"
+                  alt="Item Image"
+                />
+                <div
+                  class="mask"
+                  style="background-color: rgba(0, 0, 0, 0.6)"
+                >
+                  <div
+                    class="d-flex justify-content-center align-items-center h-100"
+                  >
+                    <p class="text-white fs-2 mb-0">SWAPPED</p>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+              </div>
+            </div>
+          </a>
         </div>
-    </ul>
+        {% endfor %}
+      </div>
+</div>
 {% endblock %}
 

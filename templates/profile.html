@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<div class="container">
+<div class="container bg-white">
   <div>
     <div class="row header-profile text-white">
       <div
@@ -40,7 +40,10 @@
                   enctype="multipart/form-data"
                 >
                   <div class="modal-header">
-                    <h5 class="modal-title text-black" id="editProfileModalLabel">
+                    <h5
+                      class="modal-title text-black"
+                      id="editProfileModalLabel"
+                    >
                       Edit profile
                     </h5>
                     <button
@@ -80,9 +83,7 @@
                       <label class="form-label" for="email">Email</label>
                     </div>
                     <div class="mb-4">
-                      <label class="form-label" for="customFile"
-                        >Avatar</label
-                      >
+                      <label class="form-label" for="customFile">Avatar</label>
                       <input
                         type="file"
                         name="image"
@@ -118,157 +119,157 @@
     <div class="">Hey, I have some old stuffs to swap for anything.</div>
   </div>
   <div class="row border border-4 border-top-0 border-dark">
-    <!-- Tabs navs -->
-    <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a
-          class="nav-link active"
-          id="ex1-tab-1"
-          data-mdb-toggle="tab"
-          href="#ex1-tabs-1"
-          role="tab"
-          aria-controls="ex1-tabs-1"
-          aria-selected="true"
-          >All</a
-        >
-      </li>
-      <li class="nav-item" role="presentation">
-        <a
-          class="nav-link"
-          id="ex1-tab-2"
-          data-mdb-toggle="tab"
-          href="#ex1-tabs-2"
-          role="tab"
-          aria-controls="ex1-tabs-2"
-          aria-selected="false"
-          >Available</a
-        >
-      </li>
-      <li class="nav-item" role="presentation">
-        <a
-          class="nav-link"
-          id="ex1-tab-3"
-          data-mdb-toggle="tab"
-          href="#ex1-tabs-3"
-          role="tab"
-          aria-controls="ex1-tabs-3"
-          aria-selected="false"
-          >Swapped</a
-        >
-      </li>
-      <li class="nav-item" role="presentation">
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-mdb-toggle="modal"
-          data-mdb-target="#exampleModal"
-        >
-          Add more item
-        </button>
+    <div class="d-flex justify-content-between align-items-center">
+      <!-- Tabs navs -->
+      <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link active"
+            id="ex1-tab-1"
+            data-mdb-toggle="tab"
+            href="#ex1-tabs-1"
+            role="tab"
+            aria-controls="ex1-tabs-1"
+            aria-selected="true"
+            >All</a
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="ex1-tab-2"
+            data-mdb-toggle="tab"
+            href="#ex1-tabs-2"
+            role="tab"
+            aria-controls="ex1-tabs-2"
+            aria-selected="false"
+            >Available</a
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="ex1-tab-3"
+            data-mdb-toggle="tab"
+            href="#ex1-tabs-3"
+            role="tab"
+            aria-controls="ex1-tabs-3"
+            aria-selected="false"
+            >Swapped</a
+          >
+        </li>
+      </ul>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-mdb-toggle="modal"
+        data-mdb-target="#exampleModal"
+      >
+        Add more item
+      </button>
 
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form
-                action="/items/create"
-                method="POST"
-                enctype="multipart/form-data"
-              >
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">
-                    Add more item
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-mdb-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form
+              action="/items/create"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Add more item
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-mdb-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <!-- name input -->
+                <div class="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="itemName"
+                    name="name"
+                    class="form-control"
+                  />
+                  <label class="form-label" for="itemName">Name</label>
                 </div>
-                <div class="modal-body">
-                  <!-- name input -->
-                  <div class="form-outline mb-4">
-                    <input
-                      type="text"
-                      id="itemName"
-                      name="name"
-                      class="form-control"
-                    />
-                    <label class="form-label" for="itemName">Name</label>
-                  </div>
-                  <div class="mb-4">
-                    <label class="form-label" for="customFile"
-                      >Default file input</label
-                    >
-                    <input
-                      type="file"
-                      name="image"
-                      class="form-control"
-                      id="customFile"
-                    />
-                  </div>
-                  <div class="form-outline mb-4">
-                    <input
-                      type="text"
-                      id="condition"
-                      name="condition"
-                      class="form-control"
-                    />
-                    <label class="form-label" for="condition">Condition</label>
-                  </div>
-                  <div class="form-outline mb-4">
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      id="description"
-                      name="description"
-                      aria-label="With textarea"
-                    ></textarea>
-
-                    <label class="form-label" for="description"
-                      >Description</label
-                    >
-                  </div>
-                  <div class="form-outline mb-4">
-                    <select
-                      aria-label="Default select"
-                      id="type"
-                      name="type"
-                      class="form-select"
-                    >
-                      <option selected>Choose category</option>
-                      <option value="CLOTHING">Clothing</option>
-                      <option value="FURNITURE">Furniture</option>
-                      <option value="ELECTRONICS">Electronics</option>
-                      <option value="VEHICLE">Vehicle</option>
-                      <option value="OTHER">Other</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-mdb-dismiss="modal"
+                <div class="mb-4">
+                  <label class="form-label" for="customFile"
+                    >Default file input</label
                   >
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <input
+                    type="file"
+                    name="image"
+                    class="form-control"
+                    id="customFile"
+                  />
                 </div>
-              </form>
-            </div>
+                <div class="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="condition"
+                    name="condition"
+                    class="form-control"
+                  />
+                  <label class="form-label" for="condition">Condition</label>
+                </div>
+                <div class="form-outline mb-4">
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="description"
+                    name="description"
+                    aria-label="With textarea"
+                  ></textarea>
+
+                  <label class="form-label" for="description"
+                    >Description</label
+                  >
+                </div>
+                <div class="form-outline mb-4">
+                  <select
+                    aria-label="Default select"
+                    id="type"
+                    name="type"
+                    class="form-select"
+                  >
+                    <option selected>Choose category</option>
+                    <option value="CLOTHING">Clothing</option>
+                    <option value="FURNITURE">Furniture</option>
+                    <option value="ELECTRONICS">Electronics</option>
+                    <option value="VEHICLE">Vehicle</option>
+                    <option value="TOY">Toy</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-mdb-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- Tabs navs -->
 
     <!-- Tabs content -->
@@ -279,6 +280,7 @@
         role="tabpanel"
         aria-labelledby="ex1-tab-1"
       >
+      {# 
         <table>
           <thead>
             <tr>
@@ -316,12 +318,58 @@
               {% endfor %}
             </tr>
           </tbody>
-        </table>
+        </table>#}
         <div class="row">
           {% for item in items %}
           <div class="col-md-3">
             <a href="/items/{{item.id}}">
-              <div class="card">
+              <div class="card mb-4">
+                {% if item.status == "ACTIVE" %}
+                <img
+                  src="{{ item.image_url}}"
+                  class="card-img-top"
+                  alt="Item Image"
+                  style="height: 200px; object-fit: cover"
+                />
+                {% else %}
+                <div class="bg-image">
+                  <img
+                    src="{{ item.image_url}}"
+                    class="img-fluid"
+                    alt="Item Image"
+                  />
+                  <div
+                    class="mask"
+                    style="background-color: rgba(0, 0, 0, 0.6)"
+                  >
+                    <div
+                      class="d-flex justify-content-center align-items-center h-100"
+                    >
+                      <p class="text-white fs-2 mb-0">SWAPPED</p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="ex1-tabs-2"
+        role="tabpanel"
+        aria-labelledby="ex1-tab-2"
+      >
+        <div class="row">
+          {% for item in items %} {% if item.status == "ACTIVE" %}
+          <div class="col-md-3">
+            <a href="/items/{{item.id}}">
+              <div class="card mb-4">
                 <img
                   src="{{ item.image_url}}"
                   class="card-img-top"
@@ -334,49 +382,8 @@
               </div>
             </a>
           </div>
-          {% endfor %}
-          <div class="col-md-3">
-            <div class="card">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
-                class="card-img-top"
-                alt="Fissure in Sandstone"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Name</h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">
-              <div class="bg-image">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.webp"
-                  class="img-fluid"
-                  alt="Sample"
-                />
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
-                  <div
-                    class="d-flex justify-content-center align-items-center h-100"
-                  >
-                    <p class="text-white fs-2 mb-0">SWAPPED</p>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Name</h5>
-              </div>
-            </div>
-          </div>
+          {% endif %} {% endfor %}
         </div>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="ex1-tabs-2"
-        role="tabpanel"
-        aria-labelledby="ex1-tab-2"
-      >
-        Tab 2 content
       </div>
       <div
         class="tab-pane fade"
@@ -384,7 +391,36 @@
         role="tabpanel"
         aria-labelledby="ex1-tab-3"
       >
-        Tab 3 content
+        <div class="row">
+          {% for item in items %} {% if item.status == "ACTIVE" %} {% else %}
+          <div class="col-md-3">
+            <a href="/items/{{item.id}}">
+              <div class="card mb-4">
+                <div class="bg-image">
+                  <img
+                    src="{{ item.image_url}}"
+                    class="img-fluid"
+                    alt="Item Image"
+                  />
+                  <div
+                    class="mask"
+                    style="background-color: rgba(0, 0, 0, 0.6)"
+                  >
+                    <div
+                      class="d-flex justify-content-center align-items-center h-100"
+                    >
+                      <p class="text-white fs-2 mb-0">SWAPPED</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
       </div>
     </div>
     <!-- Tabs content -->

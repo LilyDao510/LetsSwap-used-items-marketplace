@@ -1,14 +1,16 @@
 {% extends "base.html" %} {% block content %}
-<div class="container">
-  <div class="p-4 border border-4 border-dark">
-    <div class="d-flex justify-content-center">
-      Looking for something to swap?
-    </div>
-    <div class="d-flex justify-content-center">
-      Try search chinh for an item or category to find your perfect match
-    </div>
-    <div class="d-flex justify-content-center fs-2 text-success">
-      Browse for things we love
+<div class="container explore-intro">
+  <div>
+    <div class="p-4 border border-4 border-dark bg-white rounded-6">
+      <div class="d-flex justify-content-center">
+        Looking for something to swap?
+      </div>
+      <div class="d-flex justify-content-center">
+        Try search chinh for an item or category to find your perfect match
+      </div>
+      <div class="d-flex justify-content-center fs-2 text-success">
+        Browse for things we love
+      </div>
     </div>
   </div>
 
@@ -18,80 +20,105 @@
         aria-label="Default select"
         id="condition"
         name="condition"
-        class="form-select"
+        class="form-select category-select"
+        onchange="handleSelectCategory()"
       >
         <option selected>Choose category</option>
-        <option value="clothing">Clothing</option>
-        <option value="furniture">Furniture</option>
-        <option value="electronics">Electronics</option>
-        <option value="books">Books</option>
-        <option value="other">Other</option>
+        <option value="CLOTHING">Clothing</option>
+        <option value="FURNITURE">Furniture</option>
+        <option value="ELECTRONICS">Electronics</option>
+        <option value="VEHICLE">Vehicle</option>
+        <option value="BOOK">Book</option>
+        <option value="TOY">Toy</option>
+        <option value="OTHER">Other</option>
       </select>
     </div>
   </div>
-  <div class="pb-4">
+  <div>
     <div class="row">
-      <div class="col-md-3">
-        <div class="card">
-          <img
-            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
-            class="card-img-top"
-            alt="Fissure in Sandstone"
-          />
-          <div class="card-body">
-            <h5 class="card-title">Name</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img
-            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
-            class="card-img-top"
-            alt="Fissure in Sandstone"
-          />
-          <div class="card-body">
-            <h5 class="card-title">Name</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="bg-image">
+      {% for item in items %}
+      <div class="card-item col-md-3 d-none {{ item.type}}">
+        <a href="/items/{{item.id}}">
+          <div class="card mb-4">
+            {% if item.status == "ACTIVE" %}
             <img
-              src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.webp"
-              class="img-fluid"
-              alt="Sample"
+              src="{{ item.image_url}}"
+              class="card-img-top"
+              alt="Item Image"
+              style="height: 200px; object-fit: cover"
             />
-            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
-              <div
-                class="d-flex justify-content-center align-items-center h-100"
-              >
-                <p class="text-white fs-2 mb-0">SWAPPED</p>
+            {% else %}
+            <div class="bg-image">
+              <img
+                src="{{ item.image_url}}"
+                class="img-fluid"
+                alt="Item Image"
+              />
+              <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+                <div
+                  class="d-flex justify-content-center align-items-center h-100"
+                >
+                  <p class="text-white fs-2 mb-0">SWAPPED</p>
+                </div>
               </div>
             </div>
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+            </div>
           </div>
-          <div class="card-body">
-            <h5 class="card-title">Name</h5>
-          </div>
-        </div>
+        </a>
       </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img
-            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
-            class="card-img-top"
-            alt="Fissure in Sandstone"
-          />
-          <div class="card-body">
-            <h5 class="card-title">Name</h5>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
-  <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-primary m-auto">Load More</button>
+  <div class="d-flex justify-content-center pb-4">
+    <button
+      onclick="showMoreItems()"
+      type="button"
+      class="btn btn-primary m-auto btn-load-more"
+    >
+      Load More
+    </button>
   </div>
 </div>
+<script type="text/javascript">
+  let itemsCount = 0;
+  function showMoreItems(number = 4) {
+    const listItems = document.getElementsByClassName("card-item");
+    const len = listItems.length;
+    for (i = itemsCount; i < number + itemsCount && i < len; i++) {
+      listItems[i].classList.remove("d-none");
+    }
+    itemsCount += 4;
+  }
+
+  function handleSelectCategory() {
+    itemsCount = 0;
+    const listTypes = ["CLOTHING, FURNITURE, ELECTRONICS, VEHICLE, TOY, OTHER"];
+    const listItems = document.getElementsByClassName("card-item");
+    const type = document.getElementsByClassName("category-select")[0].value;
+    const btnLoadMore = document.getElementsByClassName("btn-load-more")[0];
+    const len = listItems.length;
+    if (type == "Choose category") {
+      btnLoadMore.classList.remove("d-none");
+    } else {
+      btnLoadMore.classList.add("d-none");
+    }
+    for (i = 0; i < len; i++) {
+      if (type == "Choose category") {
+        listItems[i].classList.add("d-none");
+      } else {
+        if (listItems[i].classList.contains(type)) {
+          listItems[i].classList.remove("d-none");
+        } else {
+          listItems[i].classList.add("d-none");
+        }
+      }
+    }
+  }
+
+  const btnLoadMore = document.getElementsByClassName("btn-load-more")[0];
+  btnLoadMore.click();
+</script>
 {% endblock %}

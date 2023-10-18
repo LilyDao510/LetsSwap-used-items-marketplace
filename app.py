@@ -4,10 +4,12 @@ import util.users as users
 import util.items as items
 from models import Users, Items, ExchangeRequests, Comments, db
 from sqlalchemy.orm import aliased
+from sqlalchemy import and_
 from flask import Blueprint
 from flask_login import login_required, login_user, current_user, logout_user, LoginManager, login_manager
 from flask import flash, redirect, url_for
 from passlib.hash import pbkdf2_sha256
+
 
 
 app = Flask(__name__)
@@ -85,7 +87,7 @@ def login():
 @login_required
 def explore():
     user = current_user
-    items = get_items_with_owner_id(user.id)
+    items = Items.query.join(Users).add_columns(Items.id,Items.type, Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).all()
     return render_template('explore.html', user=user, items=items)
 
 @app.route('/profile')
@@ -94,6 +96,14 @@ def profile():
     user = current_user
     items = get_items_with_owner_id(user.id)
     return render_template('profile.html', user=user, items=items)
+
+@app.route("/users/<int:user_id>")
+def user_profile(user_id):
+    # users = Users.query.all()
+    users = Users.query.filter_by(id=user_id).first();
+    # filter_by(id=item_id).first()
+    items = get_items_with_owner_id(user_id)
+    return render_template("user.html", user=users, items=items)
 
 @app.route('/logout')
 def logout():
@@ -112,19 +122,18 @@ def list_users():
 
 @app.route("/items")
 def list_items():
-    items = Items.query.join(Users).add_columns(Items.id,Items.type, Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).all()
+    type = request.args.get("type")
+    if type:
+        items = Items.query.join(Users).add_columns(Items.id,Items.type, Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).filter(Items.type == type).all()
+    else:
+        items = Items.query.join(Users).add_columns(Items.id,Items.type, Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).all()
     return render_template("index.html", items=items)
 
 #endpoint to list one item by id
 @app.route("/items/<int:item_id>")
 def get_item(item_id):
-    print(item_id)
     item = get_item_with_id(item_id)
-    print(item)
     requester_user_id = current_user.get_id()
-    if item.owner_id == requester_user_id:
-        flash('You cannot exchange your own item')
-        return redirect(url_for('list_items'))
     requester_items = get_items_with_owner_id(requester_user_id)
     print("check", requester_items)
     return render_template("item.html", item=item, requester_items=requester_items)
@@ -164,7 +173,7 @@ def add_item():
         item = Items(name=name, description=description, image_url=image_url, owner_id=user_id, status='ACTIVE', condition=condition, type=type)
         db.session.add(item)
         db.session.commit()
-        return redirect(url_for('list_items'))
+        return redirect(url_for('profile'))
     if request.method == 'GET':
         return render_template('create_item.html')
 
@@ -191,13 +200,15 @@ def exchange_item(item_id=None):
         return redirect(url_for('login'))
     if request.method == "POST":
         item_id = item_id
+        requester_user_id = current_user.get_id()
         requester_item_id = request.form["requester_item_id"]
         shipping_type = request.form["shipping_type"]
         address = request.form["address"]
         exchange_request = ExchangeRequests(item_id=item_id, requester_item_id=requester_item_id, shipping_type = shipping_type, address = address, status='PENDING')
         db.session.add(exchange_request)
         db.session.commit()
-        return redirect(url_for('list_exchanges', user_id = requester_user_id))
+        # return redirect(url_for('list_exchanges', user_id = requester_user_id))
+        return redirect(url_for('list_messages'))
     if request.method == 'GET':
         item = get_item_with_id(item_id)
         requester_user_id = current_user.get_id()
@@ -220,6 +231,38 @@ def list_exchanges(user_id):
     print(sent_exchanges)
     return render_template("list_exchanges.html", sent_exchanges=sent_exchanges, received_exchanges=received_exchanges)
 
+
+@app.route("/messages")
+def list_messages():
+    user_id = current_user.get_id()
+    items = get_items_with_owner_id(user_id)
+    item_ids = []
+    for item in items:
+        item_ids.append(item.id)
+    print(item_ids)
+    # todo: add image, name, information of user
+    received_exchanges = ExchangeRequests.query.filter(and_(ExchangeRequests.item_id.in_(item_ids), ExchangeRequests.status == 'PENDING')).all()
+    received_exchanges = expandExchanges(received_exchanges)
+    sent_exchanges = ExchangeRequests.query.filter(and_(ExchangeRequests.requester_item_id.in_(item_ids), ExchangeRequests.status == 'PENDING')).all()
+    sent_exchanges = expandExchanges(sent_exchanges)
+    swapped_exchanges = ExchangeRequests.query.filter(and_(ExchangeRequests.requester_item_id.in_(item_ids) | ExchangeRequests.item_id.in_(item_ids),ExchangeRequests.status != 'PENDING')).all()
+    swapped_exchanges = expandExchanges(swapped_exchanges)
+    print(received_exchanges)
+    print(sent_exchanges)
+    print(swapped_exchanges)
+    return render_template("messages.html", sent_exchanges=sent_exchanges, received_exchanges=received_exchanges, swapped_exchanges=swapped_exchanges)
+def expandExchanges(exchanges):
+    for exchange in exchanges:
+        exchange = expandExchange(exchange)
+    return exchanges
+
+def expandExchange(exchange):
+    item = get_item_with_id(exchange.item_id)
+    requester_item = get_item_with_id(exchange.requester_item_id)
+    exchange.item = item
+    exchange.requester_item = requester_item
+    return exchange
+
 @app.route("/exchanges")
 def list_my_exchanges():
     user_id = current_user.get_id()
@@ -237,20 +280,47 @@ def get_items_with_owner_id(user_id):
 
 def get_item_with_id(item_id):
     return Users.query.join(Items).\
-        add_columns(Items.id,Items.type,Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.email).\
+        add_columns(Items.id,Items.type,Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.address, Users.name.label("user_name"), Users.email).\
         filter_by(id=item_id).first()
 
 
 #endpoint to accept or reject an exchange request with status param
 
-@app.route("/exchanges/<int:exchange_id>/<status>", methods=["PUT"])
-def accept_reject_exchange(exchange_id,status):
-    print(exchange_id, status)
-    exchange = ExchangeRequests.query.get(exchange_id)
-    exchange = ExchangeRequests(exchange.id, status=status)
-    ExchangeRequests.update(exchange)
-    return redirect(url_for('list_exchanges'))
+@app.route("/exchanges/<int:exchange_id>", methods=["PUT"])
+def accept_reject_exchange(exchange_id):
+    user_id = current_user.get_id()
+    status = request.args.get('status')
+    print(status, exchange_id)
+    if status in ['ACCEPTED', 'REJECTED', 'CANCELLED']:
+        exchange = ExchangeRequests.query.get_or_404(exchange_id)
+        if exchange.status == 'PENDING':
+            exchange.status = status
+            # change status of both items to swapped
+            if status == 'ACCEPTED':
+                item = Items.query.get_or_404(exchange.item_id)
+                item.status = 'SWAPPED'
+                requester_item = Items.query.get_or_404(exchange.requester_item_id)
+                requester_item.status = 'SWAPPED'
+            db.session.commit()
+        else:
+            print("NOTHING TO DO")
+            return "Success", 204
+    # response 200
+    return "Success", 200
 
+
+@app.route('/items/search', methods=['POST','GET'])
+@login_required
+def search():
+    search_keyword = request.args.get('search_keyword')
+    print(search_keyword)
+    if search_keyword:
+        searched_items = Items.query.join(Users).add_columns(Items.id,Items.type, Items.condition, Items.status, Items.name,Items.owner_id, Items.description, Items.image_url, Users.name.label("user_name"), Users.id.label("user_id"), Users.email).filter(Items.description.like(f'%{search_keyword}%')).all()
+        print(f'THIS IS searched_result= {searched_items}')
+        return render_template('explore.html', items=searched_items, searched_keyword=search_keyword)
+    else:
+        redirect(url_for('explore'))
+    
 if __name__ == "__main__":
     app.run(host='0000000', port=5000, debug=True)
 

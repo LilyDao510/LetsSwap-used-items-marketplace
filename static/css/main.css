@@ -82,10 +82,64 @@ li.nav-item.dropdown::marker {
   max-width: 540px;
 }
 
-.header-profile{
+.header-profile {
   background-color: #00BFA5;
 }
 
 .explore-category {
   width: 200px;
+}
+
+.main-app {
+  padding-top: 65px;
+}
+
+.home-part {
+  height: 80vh;
+  background-image: url('/static/images/bg-home-2.jpg');
+  background-size: 90%;
+}
+
+.home-part-1 {
+  background-image: url('/static/images/bg-home-1.jpg');
+  background-size: 90%;
+}
+
+
+.home-overlay {
+  height: 100%;
+  background-image: url('/static/images/dynamic-bg.png');
+  -webkit-animation: bg-animation 8s infinite alternate;
+  animation: bg-animation 8s infinite alternate;
+}
+
+@keyframes bg-animation {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+.intro-content {
+  width: 1000px;
+}
+
+.explore-intro {
+  padding-top: 50px;
+}
+
+.main-app {
+  background-image: url('/static/images/bg-home-2.jpg');
+  background-size: 90%;
+}
+
+.message-comment {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.checked {
+  outline: 6px solid #3b71ca;
 }

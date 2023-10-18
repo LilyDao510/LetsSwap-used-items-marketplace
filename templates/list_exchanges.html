@@ -30,8 +30,8 @@
                         <td>{{ exchange_request.status }}</td>
                         <td>
                             <div id="exchange-request-buttons">
-                            <button type="button" id="accept-exchange-request">Accept</button>
-                            <button type="button" id="reject-exchange-request">Reject</button>
+                              <button type="button" onclick="ChangeStatusExchangeRequest()" id="status-exchange-request" exchange-id="{{ exchange_request.id }}" status="ACCEPTED">Accept</button>
+                              <button type="button" onclick="ChangeStatusExchangeRequest()" id="status-exchange-request" exchange-id="{{ exchange_request.id }}" status="REJECTED">Reject</button>
                             </div>
                         </td>
                       </tr>
@@ -65,7 +65,7 @@
                         <td>{{ exchange_request.status }}</td>
                         <td>
                             <div id="exchange-request-buttons">
-                                <button type="button" id="cancel-exchange-request">Cancel</button>
+                                <button type="button" onclick="ChangeStatusExchangeRequest()" id="status-exchange-request" exchange-id="{{ exchange_request.id }}" status="CANCELLED">Cancel</button>
                             </div>
                         </td>
                       </tr>

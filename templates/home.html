@@ -1,35 +1,53 @@
 {% extends "base.html" %} {% block content %}
-<section id="hi" class="vh-100">
-  <div class="container">
-    <div>Looking for things to swap today?</div>
-    <a href="/explore"
-      ><button type="button" class="btn text-white bg-black">
-        Explore Now
-      </button></a
+<section id="hi" class="home-part home-part-1">
+  <div class="home-overlay">
+    <div
+      class="container m-auto h-100 align-items-center d-flex justify-content-center"
     >
+      <div class="d-flex flex-column justify-content-center mb-5">
+        <div class="fs-3 fw-bold text-success m-auto">
+          Looking for things to swap today?
+        </div>
+        <a href="/explore" class="m-auto mt-5"
+          ><button type="button" class="btn text-white bg-black fs-2">
+            Explore Now
+          </button></a
+        >
+      </div>
+    </div>
   </div>
 </section>
-<section id="intro" class="vh-100">
-  <div class="container">
-    <div class="row">
-      <div class="col-9">
-        <div class="text-success fs-2 fw-bold">What is Item Exchange?</div>
-        {# TODO #}
-        <div>Item exchange is the ....</div>
+<section id="intro" class="home-part border-top border-4 border-dark">
+  <div
+    class="container m-auto h-100 align-items-center d-flex justify-content-center"
+  >
+    <div
+      class="intro-content bg-white row border border-2 border-dark rounded-6 shadow-4-strong"
+    >
+      <div class="col-9 border-end border-2 border-dark p-4">
+        <div class="text-success fs-2 fw-bold">What is Let's SWAP?</div>
+        <div>
+          An Lets Swap website is a platform where users can exchange their
+          unwanted items with other users. This can be a great way to get rid of
+          things you don't need anymore and get something new in return, without
+          having to spend any money. With the sustainable living on the rise,
+          swapping used items instead of buying new products means less clutter
+          in life and less waste to the evnironment.
+        </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 p-4">
         <img
           src="https://mdbcdn.b-cdn.net/img/new/standard/city/047.webp"
-          class="img-fluid rounded-circle"
+          class="w-100 rounded-circle"
           alt="Townhouses and Skyscrapers"
         />
       </div>
     </div>
   </div>
 </section>
-<section id="think" class="vh-100">
+<section id="think" class="home-part">
   <div class="container">
-    <div class="text-success d-flex justify-content-center fs-3 fw-bold">
+    <div class="text-success d-flex justify-content-center fs-3 fw-bold mb-4">
       Things we love
     </div>
     <div class="row">
@@ -53,12 +71,12 @@
       <div class="col-md-3">
         <div class="card">
           <img
-            src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp"
+            src="https://i.pinimg.com/564x/4e/1f/d0/4e1fd0bedef09844b1cd70ac015fd313.jpg"
             class="card-img-top"
             alt="Fissure in Sandstone"
           />
           <div class="card-body">
-            <h5 class="card-title">Name</h5>
+            <h5 class="card-title">Vintage handmade notebook</h5>
           </div>
         </div>
       </div>
@@ -66,7 +84,7 @@
         <div class="card">
           <div class="bg-image">
             <img
-              src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.webp"
+              src="https://i.pinimg.com/564x/a0/a5/86/a0a58643d9e9da774fea402edc2a750c.jpg"
               class="img-fluid"
               alt="Sample"
             />
@@ -79,7 +97,7 @@
             </div>
           </div>
           <div class="card-body">
-            <h5 class="card-title">Name</h5>
+            <h5 class="card-title">Power bank Anker 5000</h5>
           </div>
         </div>
       </div>

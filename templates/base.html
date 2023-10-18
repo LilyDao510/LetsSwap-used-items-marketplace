@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Item Exchanger</title>
+    <title>Let's SWAP</title>
     {% with messages = get_flashed_messages() %} {% if messages %}
     <ul class="flashes">
       {% for message in messages %}
@@ -43,9 +43,9 @@
     />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="/items">Item Exchanger Service</a>
+        <a class="navbar-brand" href="/explore">Let's SWAP</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -62,24 +62,29 @@
             <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/users">Users</a>
-            </li>
+            </li> -->
             <li class="nav-item">
-              <a class="nav-link" href="/exchanges">Requests</a>
+              <a class="nav-link" href="/messages">Messages</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/items/create"
                 >List Item For Exchange</a
               >
-            </li>
+            </li> -->
           </ul>
-          <form class="d-flex" role="search">
+          <form
+            action="/items/search?search_keyword={{ search_keyword }}"
+            class="d-flex"
+            role="search"
+          >
             <input
               class="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              name="search_keyword"
             />
             <button class="btn btn-outline-success" type="submit">
               Search
@@ -105,7 +110,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/profile">My Profile</a></li>
-                <li><a class="dropdown-item" href="#">Messages</a></li>
+                <li><a class="dropdown-item" href="/messages">Messages</a></li>
                 <li><a class="dropdown-item" href="#">Membership</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
@@ -118,7 +123,7 @@
       </div>
     </nav>
 
-    <main>{% block content %}{% endblock %}</main>
+    <main class="main-app">{% block content %}{% endblock %}</main>
 
     <!-- Footer -->
     <footer class="text-center text-lg-start bg-white text-muted">
@@ -131,13 +136,12 @@
             <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
               <!-- Content -->
               <h6 class="text-uppercase fw-bold mb-4">
-                <i class="fas fa-gem me-3 text-secondary"></i>Item Exchanger
-                Services
+                <i class="fas fa-gem me-3 text-secondary"></i>Let's SWAP
               </h6>
               <p>
-                Here you can use rows and columns to organize your footer
-                content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit.
+                Using Lets Swap to
+                <span class="text-success">reuse items</span> is good for the
+                environment and your wallet.
               </p>
             </div>
             <!-- Grid column -->
@@ -147,16 +151,16 @@
               <!-- Links -->
               <h6 class="text-uppercase fw-bold mb-4">Products</h6>
               <p>
-                <a href="#!" class="text-reset">Angular</a>
+                <a href="#!" class="text-reset">Clothing</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">React</a>
+                <a href="#!" class="text-reset">Electronics</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Vue</a>
+                <a href="#!" class="text-reset">Furniture</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Laravel</a>
+                <a href="#!" class="text-reset">Vehicle</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -166,13 +170,13 @@
               <!-- Links -->
               <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
               <p>
-                <a href="#!" class="text-reset">Pricing</a>
+                <a href="#!" class="text-reset">Environment Event </a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Settings</a>
+                <a href="#!" class="text-reset">Press</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Orders</a>
+                <a href="#!" class="text-reset">Write for us </a>
               </p>
               <p>
                 <a href="#!" class="text-reset">Help</a>
@@ -211,7 +215,7 @@
         class="text-center p-4"
         style="background-color: rgba(0, 0, 0, 0.025)"
       >
-        <div>Copyright &copy; 2023 Item Exchanger - A Hackbright Project</div>
+        <div>Copyright &copy; 2023 Let's SWAP - A Hackbright Project</div>
       </div>
       <!-- Copyright -->
     </footer>
@@ -225,6 +229,10 @@
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/main.js') }}"
     ></script>
   </body>
 </html>

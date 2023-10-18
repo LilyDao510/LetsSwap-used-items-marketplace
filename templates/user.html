@@ -1,0 +1,223 @@
+{% extends "base.html" %} {% block content %}
+<div class="container bg-white">
+  <div>
+    <div class="row header-profile text-white">
+      <div
+        class="col-4 d-flex justify-content-center p-4 border border-4 border-dark border-end-0"
+      >
+        <i class="profile bi bi-person-circle" style="font-size: 10rem"></i>
+      </div>
+      <div
+        class="col-8 d-flex flex-column justify-content-between p-4 border border-4 border-dark"
+      >
+        <div class="fw-bolder fs-3 pb-4">{{user.name}}</div>
+        <div>{{user.email}}</div>
+        <div>{{user.address}}</div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="d-flex justify-content-evenly p-4 row border border-4 border-top-0 border-dark"
+  >
+    <div class="h4 fw-bold">Intro</div>
+    <div class="">Hey, I have some old stuffs to swap for anything.</div>
+  </div>
+  <div class="row border border-4 border-top-0 border-dark">
+    <div class="d-flex justify-content-between align-items-center">
+      <!-- Tabs navs -->
+      <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link active"
+            id="ex1-tab-1"
+            data-mdb-toggle="tab"
+            href="#ex1-tabs-1"
+            role="tab"
+            aria-controls="ex1-tabs-1"
+            aria-selected="true"
+            >All</a
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="ex1-tab-2"
+            data-mdb-toggle="tab"
+            href="#ex1-tabs-2"
+            role="tab"
+            aria-controls="ex1-tabs-2"
+            aria-selected="false"
+            >Available</a
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="ex1-tab-3"
+            data-mdb-toggle="tab"
+            href="#ex1-tabs-3"
+            role="tab"
+            aria-controls="ex1-tabs-3"
+            aria-selected="false"
+            >Swapped</a
+          >
+        </li>
+      </ul>
+    </div>
+    <!-- Tabs navs -->
+
+    <!-- Tabs content -->
+    <div class="tab-content" id="ex1-content">
+      <div
+        class="tab-pane fade show active"
+        id="ex1-tabs-1"
+        role="tabpanel"
+        aria-labelledby="ex1-tab-1"
+      >
+      {# 
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Condition</th>
+              <th>Status</th>
+              <th>Owner</th>
+              <th>Description</th>
+              <th>Image</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+            <tr>
+              <td><a href="/items/{{item.id}}">{{item.id}}</a></td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.type }}</td>
+              <td>{{ item.condition }}</td>
+              <td>{{ item.status}}</td>
+              <td>
+                <a href="/users/{{item.owner_id}}/items">{{item.user_name}}</a>
+              </td>
+              <td>{{ item.description }}</td>
+              <td>
+                {% if item.image_url %}
+                <img
+                  src="{{ item.image_url}}"
+                  alt="Item Image"
+                  style="width: 400px; height: 300px"
+                />
+                {% endif %}
+              </td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>#}
+        <div class="row">
+          {% for item in items %}
+          <div class="col-md-3">
+            <a href="/items/{{item.id}}">
+              <div class="card mb-4">
+                {% if item.status == "ACTIVE" %}
+                <img
+                  src="{{ item.image_url}}"
+                  class="card-img-top"
+                  alt="Item Image"
+                  style="height: 200px; object-fit: cover"
+                />
+                {% else %}
+                <div class="bg-image">
+                  <img
+                    src="{{ item.image_url}}"
+                    class="img-fluid"
+                    alt="Item Image"
+                  />
+                  <div
+                    class="mask"
+                    style="background-color: rgba(0, 0, 0, 0.6)"
+                  >
+                    <div
+                      class="d-flex justify-content-center align-items-center h-100"
+                    >
+                      <p class="text-white fs-2 mb-0">SWAPPED</p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="ex1-tabs-2"
+        role="tabpanel"
+        aria-labelledby="ex1-tab-2"
+      >
+        <div class="row">
+          {% for item in items %} {% if item.status == "ACTIVE" %}
+          <div class="col-md-3">
+            <a href="/items/{{item.id}}">
+              <div class="card mb-4">
+                <img
+                  src="{{ item.image_url}}"
+                  class="card-img-top"
+                  alt="Item Image"
+                  style="height: 200px; object-fit: cover"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="ex1-tabs-3"
+        role="tabpanel"
+        aria-labelledby="ex1-tab-3"
+      >
+        <div class="row">
+          {% for item in items %} {% if item.status == "ACTIVE" %} {% else %}
+          <div class="col-md-3">
+            <a href="/items/{{item.id}}">
+              <div class="card mb-4">
+                <div class="bg-image">
+                  <img
+                    src="{{ item.image_url}}"
+                    class="img-fluid"
+                    alt="Item Image"
+                  />
+                  <div
+                    class="mask"
+                    style="background-color: rgba(0, 0, 0, 0.6)"
+                  >
+                    <div
+                      class="d-flex justify-content-center align-items-center h-100"
+                    >
+                      <p class="text-white fs-2 mb-0">SWAPPED</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- Tabs content -->
+  </div>
+</div>
+{% endblock %}
