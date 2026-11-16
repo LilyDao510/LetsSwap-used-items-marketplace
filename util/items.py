@@ -1,12 +1,13 @@
+import os
 import uuid
 import base64
 
 from imagekitio import ImageKit
 
 imagekit = ImageKit(
-    private_key='private_y6pDCa9EuxN3UZRp/oGqKNvyVC0=',
-    public_key='public_34Jp1/QR0bWgSkoZotQv03GONZk=',
-    url_endpoint='https://ik.imagekit.io/jkpzdliog/item-exchange-images'
+    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
+    public_key=os.environ.get("IMAGEKIT_PUBLIC_KEY"),
+    url_endpoint=os.environ.get("IMAGEKIT_URL_ENDPOINT"),
 )
 # https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload
 def upload_image(file):
