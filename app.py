@@ -13,9 +13,9 @@ from passlib.hash import pbkdf2_sha256
 
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-me")
 app.config['TEMPLATES_AUTO_RELOAD']= True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://lien_dao:dummy@localhost/hb_item_exchange'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.login'
 db.init_app(app)
